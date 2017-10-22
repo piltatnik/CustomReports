@@ -1,0 +1,27 @@
+select p.id,count(*)
+from CARD C right JOIN PRIVILEGE P ON C.ID_PRIVILEGE=P.ID 
+left join t_data t on c.id=t.id_card
+where p.id=400246845
+group by p.id
+
+
+
+select c.series,count(*) from CARD C 
+left join (select distinct t1.id_card from t_data t1, CARD C  where t1.kind in (7,8,12,13) and c.series in (01,32,31) and c.id=t1.id_card ) t on  c.id=t.id_card 
+where
+c.series in (01,32,31)
+group by c.series
+order by series desc
+
+
+select 0,0 from card
+ 
+select c.series,count(*)
+from CARD C left outer join t_data t on  c.id=t.id_card where
+c.series in (01,32,31) and t.kind in (7,8,12,13)
+group by c.series
+order by series desc
+
+select *
+from privilege
+where c.series=01

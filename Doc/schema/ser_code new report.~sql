@@ -1,0 +1,27 @@
+create view ser_code(id_ser,id_code)
+as 
+select distinct t.card_series,
+case when  t.card_series=14 or t.card_series=24 or t.card_series=34 or t.card_series=15 or t.card_series=25 or t.card_series=35 or t.card_series=16 then 00000001 --шк
+     when  t.card_series=11 or t.card_series=21 or t.card_series=31 or t.card_series=12 or t.card_series=22 or t.card_series=32 or t.card_series=13 then 00000002  --ст
+     when  t.card_series=17 then 00000003 --льготники
+     when  t.card_series=19 or t.card_series=29 or  t.card_series=50 or t.card_series=52 then 00000004   --гражд 1
+     when t.card_series=39 or t.card_series=53 then 00000005--гражд2         
+     when t.card_series=60  then 00000006--ultralight
+     
+         
+       end
+from t_data t where t.card_series in (14,24,34,15,25,35,16,11,21,31,12,22,32,13,17,19,29,50,52,39,53,60)
+
+select s.id_code,count(t.id) from
+ t_data t left join ser_code s on t.card_series=s.id_ser
+ left join division d on t.id_division=d.id
+ where t.kind in (7,8,12,13)  and t.date_of between '22.08.2016' and '06.09.2016'
+ group by s.id_code
+ order by 1
+
+select sc.id_code,card.series,count(*) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    left join ser_code sc on card.series=sc.id_ser
+    left join division d on t_data.id_division=d.id
+    where card.series in (24,25) and t_data.kind in (7,8,12,13) --and d.id=500246845
+    group by sc.id_code,card.series) s2

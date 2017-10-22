@@ -1,0 +1,12 @@
+select p.code,p.name, count(t.date_of)
+from card c right join  PRIVILEGE p on c.id_privilege=p.id
+left join t_data t on c.id=t.id_card
+where p.code=10  --and t.kind in (7,8,12,13)
+group by p.name,p.code 
+union 
+select p.code,p.name, count(t.date_of)
+from card c right join  PRIVILEGE p on c.id_privilege=p.id
+left join t_data t on c.id=t.id_card
+where p.code between 7 and 15 and t.kind in (7,8,12,13)
+group by p.name,p.code 
+order by 1

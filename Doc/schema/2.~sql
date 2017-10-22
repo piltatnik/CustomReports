@@ -1,0 +1,8 @@
+select C.NUM,C.SOCIAL_CARD,C.SERIES,C.F,P.NAME,p.code  from CARD C LEFT JOIN PRIVILEGE P ON C.ID_PRIVILEGE=P.ID where NUM like '%12225'
+
+
+
+--   UPDATE CARD SET F ='ахпчйнбю люпхмю бхрюкэебмю' WHERE NUM=0030012225
+
+
+

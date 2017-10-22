@@ -1,0 +1,345 @@
+select s02.d,s02.train_table,coalesce(s0.sh,0),coalesce(s0.summa,0),
+       coalesce(s96.sh,0),
+       coalesce(s22.sh,0),
+       coalesce(s21.sh,0),
+       coalesce(s32.sh,0),
+       coalesce(s31.sh,0),
+       coalesce(s13.sh,0),
+       coalesce(s12.sh,0),
+       coalesce(s11.sh,0),
+       coalesce(s25.sh,0),
+       coalesce(s24.sh,0),
+       coalesce(s35.sh,0),
+       coalesce(s34.sh,0),
+       coalesce(s16.sh,0),
+       coalesce(s15.sh,0),
+       coalesce(s14.sh,0),
+       coalesce(s17.sh,0),
+       coalesce(s07.sh,0),
+       coalesce(s08.sh,0),
+       coalesce(s09.sh,0),
+       coalesce(s10.sh,0),
+       coalesce(s11t.sh,0),
+       coalesce(s12o.sh,0),
+       coalesce(s13r.sh,0),
+       coalesce(s14v.sh,0),
+       coalesce(s15f.sh,0)
+from 
+        ( select distinct to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table
+    from t_data
+    where  t_data.kind in (14,15,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016' 
+   -- group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,
+    ) s02    
+ left outer join 
+
+  ( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,coalesce(card.series,'02') as c,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016' and coalesce(card.series,'02')=02  --нал
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,coalesce(card.series,'02')
+    
+    ) s0
+ 
+  on   s02.train_table=s0.train_table
+  and s02.d=s0.d
+
+left outer join 
+  ( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    where  t_data.kind in (14,15,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016' and t_data.card_series=96  --visa
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    
+    ) s96
+ 
+  on   s02.train_table=s96.train_table
+  and s02.d=s96.d
+
+left outer join 
+
+(select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =22 --ст50тр
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s22
+  on 
+  s02.train_table=s22.train_table
+  and s02.d=s22.d
+left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =21  --ст тр
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s21
+  on 
+  s02.train_table=s21.train_table
+  and s02.d=s21.d
+left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =32  --ст50 ат
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s32
+  on 
+    s02.train_table=s32.train_table
+  and s02.d=s32.d
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =31 --ст ат
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s31
+  on 
+    s02.train_table=s31.train_table
+  and s02.d=s31.d
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =13   --ст100 2
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s13
+  on 
+   s02.train_table=s13.train_table
+  and s02.d=s13.d
+ left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =12 --ст50 2
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s12
+  on 
+    s02.train_table=s12.train_table
+  and s02.d=s12.d
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =11 --ст2
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s11
+  on 
+   s02.train_table=s11.train_table
+  and s02.d=s11.d
+ left join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =35 --шк50ат
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s35
+  on 
+   s02.train_table=s35.train_table
+  and s02.d=s35.d
+  left join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =34  --шк ат
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s34
+  on 
+    s02.train_table=s34.train_table
+  and s02.d=s34.d
+  
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =25 --шк50тр
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s25
+  on 
+   s02.train_table=s25.train_table
+  and s02.d=s25.d
+  
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =24 --шк тр
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s24
+  on 
+    s02.train_table=s24.train_table
+  and s02.d=s24.d
+
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =16 --шк 100
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s16
+  on 
+    s02.train_table=s16.train_table
+  and s02.d=s16.d
+
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =15 --шк50 2
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s15
+  on 
+    s02.train_table=s15.train_table
+  and s02.d=s15.d
+
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =14 --шк 2
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s14
+  on 
+    s02.train_table=s14.train_table
+  and s02.d=s14.d
+
+  left outer join 
+     (select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,t_data.card_series,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from CARD left outer join t_data on  card.id=t_data.id_card 
+    where t_data.kind in (14,17) and t_data.id_division=300246845 and t_data.card_series =17 --льготники
+    and t_data.date_of between '01.09.2016' and '01.10.2016'  
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,t_data.card_series
+    ) s17
+  on 
+    s02.train_table=s17.train_table
+  and s02.d=s17.d
+left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --пенс
+    and p.code =7
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s07
+    on 
+    s02.train_table=s07.train_table
+      and s02.d=s07.d
+ left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --попеч
+    and p.code =8
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s08
+    on 
+    s02.train_table=s08.train_table   
+  and s02.d=s08.d
+
+left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --вдовы
+    and p.code =9
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s09
+    on 
+    s02.train_table=s09.train_table
+    and s02.d=s09.d
+    
+left outer join  
+ 
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --почетные
+    and p.code =10
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s10
+    on 
+    s02.train_table=s10.train_table
+    and s02.d=s10.d
+    
+    left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --труженики
+    and p.code =11
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s11t
+    on 
+    s02.train_table=s11t.train_table
+    and s02.d=s11t.d
+
+left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --областные
+    and p.code =12
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s12o
+    on 
+    s02.train_table=s12o.train_table
+    and s02.d=s12o.d
+    
+left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --реаб
+    and p.code =13
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s13r
+    on 
+    s02.train_table=s13r.train_table
+    and s02.d=s13r.d
+
+    left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --ветераны
+    and p.code =14
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s14v
+    on 
+    s02.train_table=s14v.train_table
+    and s02.d=s14v.d
+    left outer join   
+( select to_date(t_data.date_of,'dd-MM-YYYY') as d,t_data.train_table,count(t_data.id) as sh,sum(t_data.amount) as summa   
+    from t_data left join card on t_data.id_card=card.id
+    left join privilege p on p.id=card.id_privilege
+    where  t_data.kind in (14,17) and t_data.id_division=300246845
+    and t_data.date_of between '01.09.2016' and '01.10.2016'   --федеральные
+    and p.code =15
+    group by to_date(t_data.date_of,'dd-MM-YYYY'),t_data.train_table,p.code
+    
+    ) s15f
+    on 
+    s02.train_table=s15f.train_table
+    and s02.d=s15f.d
+    
+
+   order by 1,2
+  
+ 
+   

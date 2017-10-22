@@ -1,0 +1,30 @@
+select c.num,count(t.id) from t_data t left join card c
+on t.id_card=c.id
+where t.date_of between '01.09.2016' and '28.09.2016' 
+and c.series=17
+and t.kind = 17
+and t.id_division=300246845
+group by c.num,t.r
+
+order by count(t.id) desc,c.num 
+t.id_route
+
+/*select id_card,count(*) from t_data t left join card c
+on t.id_card=c.id
+where t.id_card_sec=13100246845
+and t.id_division=300246845
+and t.kind=17
+group by id_card
+order by count(*) desc
+
+select c.num,to_date(t.date_of,'dd-MM-yyyy'),count(t.id) from t_data t left join card c
+on t.id_card=c.id
+where t.date_of between '01.09.2016' and '28.09.2016' 
+and c.series=17
+and t.kind = 17
+and t.id_division=300246845
+
+group by c.num,to_date(t.date_of,'dd-MM-yyyy'),t.id_route
+order by count(t.id) desc,c.num 
+
+*/
