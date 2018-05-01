@@ -201,7 +201,7 @@ namespace TransportReports
                         }
                         //er.Style.WrapText = true; //cells.Rows.AutoFit();
                     }
-                    pack.Workbook.Calculate();
+                    //pack.Workbook.Calculate();
                     pack.Save();
                     if (dtLists != null)
                     {

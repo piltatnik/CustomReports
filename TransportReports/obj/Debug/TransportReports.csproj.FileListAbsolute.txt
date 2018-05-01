@@ -10,3 +10,15 @@ F:\Workspace\Test_projects\TransportReports\TransportReports\obj\Debug\Transport
 F:\Workspace\Test_projects\TransportReports\TransportReports\obj\Debug\TransportReports.pdb
 F:\Workspace\Test_projects\TransportReports\TransportReports\obj\Debug\TransportReports.csprojResolveAssemblyReference.cache
 F:\Workspace\Test_projects\TransportReports\TransportReports\obj\Debug\TransportReports.LockedDivisions.resources
+F:\Workspace\Test_projects\CustomReports\TransportReports\bin\Debug\TransportReports.exe.config
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.csproj.ResolveComReference.cache
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.exe
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.pdb
+F:\Workspace\Test_projects\CustomReports\TransportReports\bin\Debug\TransportReports.exe
+F:\Workspace\Test_projects\CustomReports\TransportReports\bin\Debug\TransportReports.pdb
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.csprojResolveAssemblyReference.cache
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.LockedAgents.resources
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.LockedDivisions.resources
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.Main.resources
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.Properties.Resources.resources
+F:\Workspace\Test_projects\CustomReports\TransportReports\obj\Debug\TransportReports.csproj.GenerateResource.Cache

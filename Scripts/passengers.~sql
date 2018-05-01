@@ -1,0 +1,12 @@
+SELECT ID_OPERATOR,
+       ID_DIVISION,
+       ID_ROUTE,       
+       COUNT(DISTINCT ID_VEHICLE),
+       COUNT(1)
+FROM   tmp$cptt_buffer_halfyear
+GROUP  BY ID_OPERATOR,
+          ID_DIVISION,
+          ID_ROUTE
+ORDER  BY ID_OPERATOR,
+       ID_DIVISION,
+       ID_ROUTE 
